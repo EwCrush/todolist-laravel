@@ -1,0 +1,46 @@
+* {
+box-sizing: inherit;
+}
+
+html {
+    line-height: 1.6rem;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+    scroll-behavior: smooth;
+}
+
+body{
+    overflow: hidden;
+}
+
+.grid{
+    width: 1200px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.grid__row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -12px;
+    margin-right: -12px;
+}
+
+.grid__row{
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -12px;
+    margin-right: -12px;
+}
+
+.grid__column-sidebar{
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 16.6666666667%;
+}
+
+.grid__column-content{
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 83.3333333333%;
+}
