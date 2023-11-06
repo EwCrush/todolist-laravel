@@ -14,9 +14,32 @@
                     </span>
 
                     <input type="text"
+                        name="fullname"
+                        value="{{ old('fullname') }}"
                         class="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                         placeholder="Họ tên">
                 </div>
+                @error('fullname')
+                    <small class="text-red">{{ $message }}</small>
+                @enderror
+                <div class="relative flex items-center mt-4">
+                    <span class="absolute">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mx-3 text-gray-300 dark:text-gray-500"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                        </svg>
+                    </span>
+
+                    <input type="text"
+                        name="username"
+                        value="{{ old('username') }}"
+                        class="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                        placeholder="Tên tài khoản">
+                </div>
+                @error('username')
+                    <small class="text-red">{{ $message }}</small>
+                @enderror
                 <div class="relative flex items-center mt-4">
                     <span class="absolute">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mx-3 text-gray-300 dark:text-gray-500"
@@ -27,9 +50,14 @@
                     </span>
 
                     <input type="email"
+                        name="email"
+                        value="{{ old('email') }}"
                         class="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                         placeholder="Email">
                 </div>
+                @error('email')
+                    <small class="text-red">{{ $message }}</small>
+                @enderror
 
                 <div class="relative flex items-center mt-4">
                     <span class="absolute">
@@ -41,9 +69,14 @@
                     </span>
 
                     <input type="password"
+                        name="password"
+                        value="{{ old('password') }}"
                         class="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                         placeholder="Mật khẩu">
                 </div>
+                @error('password')
+                    <small class="text-red">{{ $message }}</small>
+                @enderror
 
                 <div class="relative flex items-center mt-4">
                     <span class="absolute">
@@ -55,6 +88,8 @@
                     </span>
 
                     <input type="password"
+                    name="password_confirmation"
+                    value="{{ old('password_confirmation') }}"
                         class="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                         placeholder="Xác nhận mật khẩu">
                 </div>

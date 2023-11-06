@@ -1,5 +1,27 @@
 @extends('layouts.page')
 @section('content')
+    @if (session('signup'))
+        <script>
+            let message = '{!! session('signup') !!}'
+            Swal.fire({
+                position: "top-right",
+                icon: "success",
+                title: message,
+                showConfirmButton: false,
+                timer: 2000,
+            });
+        </script>
+    @endif
+    @if (session('LoginFailed'))
+        <script>
+            let message = '{!! session('LoginFailed') !!}'
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: message,
+            });
+        </script>
+    @endif
     <section class="bg-white dark:bg-gray-900">
         <div class="container flex items-center justify-center min-h-screen px-6 mx-auto">
             <form class="w-full max-w-md" method="POST">
@@ -8,15 +30,18 @@
                     <span class="absolute">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mx-3 text-gray-300 dark:text-gray-500"
                             fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
                         </svg>
                     </span>
 
-                    <input type="email" name="email" value=""
+                    <input type="text" name="username" value="{{ old('username') }}"
                         class="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-                        placeholder="Email">
+                        placeholder="Tên tài khoản">
                 </div>
+                @error('username')
+                    <small class="text-red">{{ $message }}</small>
+                @enderror
 
                 <div class="relative flex items-center mt-4">
                     <span class="absolute">
@@ -27,10 +52,13 @@
                         </svg>
                     </span>
 
-                    <input type="password" name="password" value=""
+                    <input type="password" name="password" value="{{ old('password') }}"
                         class="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                         placeholder="Mật khẩu">
                 </div>
+                @error('password')
+                    <small class="text-red">{{ $message }}</small>
+                @enderror
 
                 <div class="mt-6">
                     <button id="signin" type="submit"
@@ -74,11 +102,11 @@
     </section>
 @endsection
 
-<script>
+{{-- <script>
     document.addEventListener('DOMContentLoaded', function() {
         const signIn = document.querySelector("#signin")
         const token = document.querySelector('input[name="_token"]').value
-        const email = document.querySelector('input[name="email"]')
+        const username = document.querySelector('input[name="username"]')
         const password = document.querySelector('input[name="password"]')
 
         signIn.addEventListener("click", function(e) {
@@ -88,7 +116,7 @@
         function signInHandle(e) {
             e.preventDefault();
             const data = {
-                email: email.value,
+                username: username.value,
                 password: password.value,
                 _token: token
             };
@@ -98,9 +126,14 @@
                     // Xử lý kết quả từ phía máy chủ (nếu có)
                 })
                 .catch(error => {
-                    console.error(error);
-                    // Xử lý lỗi nếu có
+                    const errors = error.response.data.errors;
+                    for (const key in errors) {
+                        if (errors.hasOwnProperty(key)) {
+                            const errorText = errors[key][0];
+                            document.querySelector('.error.' + key).innerText = errorText
+                        }
+                    }
                 });
         }
     })
-</script>
+</script> --}}

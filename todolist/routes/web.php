@@ -19,15 +19,13 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('todo', function () {
-        return view('pages.user.todo');
-    });
 });
 
 Route::post('/signin', [AuthController::class, 'handleSignin']);
 Route::get('/signin', [AuthController::class, 'signin'])->name('signin');
-Route::post('/signup', [AuthController::class, 'handleSignin']);
+Route::post('/signup', [AuthController::class, 'handleSignup']);
 Route::get('/signup', [AuthController::class, 'signup'])->name('signup');
+Route::get('/todo', [AuthController::class, 'todo'])->name('todo');
 
 // Route::get('signin', function () {
 //     return view('pages.signin');
