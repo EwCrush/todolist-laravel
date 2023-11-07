@@ -16,7 +16,8 @@ export default {
         red: "#ed174f",
         yellow: "#CA9C1C",
         orange: "#FF8C00",
-        green: "#008000"
+        green: "#008000",
+        sidebarselected: "#ecf1fe"
       },
     },
   },

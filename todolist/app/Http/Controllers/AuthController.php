@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function handleSignin(LoginRequest $request){
+    public function handleSignin(Request $request){
         $user = User::where('username_account', $request->username)->first();
         if(!$user){
             $message = 'Thông tin đăng nhập không tồn tài!';
@@ -36,42 +36,10 @@ class AuthController extends Controller
     }
 
     public function signin(){
-        if(session('token')){
-            return redirect()->route('todo');
-        }
-        else{
-            return view('pages.signin');
-        }
+        return view('pages.signin');
     }
 
     public function signup(){
-        if(session('token')){
-            return redirect()->route('todo');
-        }
-        else{
-            return view('pages.signup');
-        }
-    }
-
-    public function handleSignup(SignUpRequest $request){
-        User::create([
-            'fullname' => $request->fullname,
-            'email' => $request->email,
-            'username_account' => $request->username,
-            'password_account' => Hash::make($request->password),
-            'avatar' => 'default.jpg',
-            'OTP' => '',
-        ]);
-        $message = 'Đăng ký tài khoản thành công';
-        return redirect()->route('signin')->with('signup', $message);
-    }
-
-    public function todo(){
-        if(!session('token')){
-            return redirect()->route('signin');
-        }
-        else{
-            return view('pages.user.todo');
-        }
+        return view('pages.signup');
     }
 }

@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ToDoController;
+use JD\Cloudder\Facades\Cloudder;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,21 +17,22 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return Cloudder::show('sample');
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/tags', [ToDoController::class, 'getTags'])->name('getTags');
+    Route::get('/lists', [ToDoController::class, 'getLists'])->name('getLists');
 });
 
 Route::post('/signin', [AuthController::class, 'handleSignin']);
 Route::get('/signin', [AuthController::class, 'signin'])->name('signin');
 Route::post('/signup', [AuthController::class, 'handleSignup']);
 Route::get('/signup', [AuthController::class, 'signup'])->name('signup');
-Route::get('/todo', [AuthController::class, 'todo'])->name('todo');
 
-// Route::get('signin', function () {
-//     return view('pages.signin');
-// })->name('signin');
-// Route::get('signup', function () {
-//     return view('pages.signup');
-// })->name('signup');
+Route::middleware('todo')->prefix('todo')->group(function () {
+    Route::get('/', [ToDoController::class, 'todo'])->name('todo');
+    Route::get('/tasks/today', [ToDoController::class, 'today'])->name('today');
+    Route::get('/tasks/next-7-days', [ToDoController::class, 'next7days'])->name('next7days');
+    Route::get('/tasks/all', [ToDoController::class, 'alltasks'])->name('alltasks');
+});
