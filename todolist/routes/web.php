@@ -32,7 +32,7 @@ Route::get('/signup', [AuthController::class, 'signup'])->name('signup');
 
 Route::middleware('todo')->prefix('todo')->group(function () {
     Route::get('/', [ToDoController::class, 'todo'])->name('todo');
-    Route::get('/tasks/today', [ToDoController::class, 'today'])->name('today');
-    Route::get('/tasks/next-7-days', [ToDoController::class, 'next7days'])->name('next7days');
-    Route::get('/tasks/all', [ToDoController::class, 'alltasks'])->name('alltasks');
+    Route::get('/list/today', [ToDoController::class, 'today'])->name('today');
+    Route::get('/list/next-7-days', [ToDoController::class, 'next7days'])->name('next7days');
+    Route::get('/list/all', [ToDoController::class, 'alltasks'])->name('alltasks');
 });

@@ -1,4 +1,4 @@
 @extends('pages.user.todo')
-@section('todothings')
+@section('tasks')
     next 7 days
 @endsection

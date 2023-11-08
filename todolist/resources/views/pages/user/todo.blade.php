@@ -14,21 +14,21 @@
             <ul>
                 <li
                     class="py-2 px-3 text-base hover:bg-zinc-100 cursor-pointer @if ($routename == 'today') bg-sidebarselected @endif">
-                    <a href="{{ route('today') }}" class="flex items-center text-gray-700 hover:text-blue-600">
+                    <a href="{{ route('today') }}" class="flex items-center text-gray-600 hover:text-blue-600">
                         <i class="mr-2 fa-solid fa-calendar-day"></i>
                         Hôm nay
                     </a>
                 </li>
                 <li
                     class="py-2 px-3 text-base hover:bg-zinc-100 cursor-pointer @if ($routename == 'next7days') bg-sidebarselected @endif">
-                    <a href="{{ route('next7days') }}" class="flex items-center text-gray-700 hover:text-blue-600">
+                    <a href="{{ route('next7days') }}" class="flex items-center text-gray-600 hover:text-blue-600">
                         <i class="mr-2 fa-solid fa-calendar-week"></i>
                         7 ngày tới
                     </a>
                 </li>
                 <li
                     class="py-2 px-3 text-base hover:bg-zinc-100 cursor-pointer @if ($routename == 'alltasks') bg-sidebarselected @endif">
-                    <a href="{{ route('alltasks') }}" class="flex items-center text-gray-700 hover:text-blue-600">
+                    <a href="{{ route('alltasks') }}" class="flex items-center text-gray-600 hover:text-blue-600">
                         <i class="mr-2 fa-solid fa-rectangle-list"></i>
                         Tất cả task
                     </a>
@@ -44,7 +44,7 @@
             <ul>
                 @foreach (session('dataTodoMiddleware')['lists'] as $list)
                     <li class="py-2 px-3 text-sm hover:bg-zinc-100 cursor-pointer">
-                        <a href="#" class="flex items-center text-gray-700 hover:text-blue-600">
+                        <a href="#" class="flex items-center text-gray-600 hover:text-blue-600">
                             <i class="mr-2 fa-solid fa-list"></i>
                             {{ $list->name }}
                         </a>
@@ -59,7 +59,7 @@
             <ul>
                 @foreach (session('dataTodoMiddleware')['tags'] as $tag)
                     <li class="py-2 px-3 text-sm hover:bg-zinc-100 cursor-pointer">
-                        <a href="#" class="flex items-center text-gray-700 hover:text-blue-600">
+                        <a href="#" class="flex items-center text-gray-600 hover:text-blue-600">
                             <i class="mr-2 fa-solid fa-tag"></i>
                             #{{ $tag->name }}
                         </a>
@@ -69,13 +69,13 @@
             <hr class="my-1" />
             <ul>
                 <li class="py-2 px-3 text-base hover:bg-zinc-100 cursor-pointer">
-                    <a href="#" class="flex items-center text-gray-700 hover:text-blue-600">
+                    <a href="#" class="flex items-center text-gray-600 hover:text-blue-600">
                         <i class="mr-2 fa-solid fa-square-check"></i>
                         Đã xong
                     </a>
                 </li>
                 <li class="py-2 px-3 text-base hover:bg-zinc-100 cursor-pointer">
-                    <a href="#" class="flex items-center text-gray-700 hover:text-blue-600">
+                    <a href="#" class="flex items-center text-gray-600 hover:text-blue-600">
                         <i class="mr-2 fa-solid fa-trash-can"></i>
                         Thùng rác
                     </a>
@@ -86,5 +86,5 @@
 @endsection
 
 @section('content')
-    @yield('todothings')
+    @yield('tasks')
 @endsection

@@ -17,10 +17,13 @@ export default {
         yellow: "#CA9C1C",
         orange: "#FF8C00",
         green: "#008000",
-        sidebarselected: "#ecf1fe"
+        sidebarselected: "#ecf1fe",
+        border: "#f8f8f8"
       },
     },
   },
-  plugins: [],
+  plugins: [
+    
+  ],
 }
 
