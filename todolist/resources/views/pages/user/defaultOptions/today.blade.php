@@ -29,8 +29,8 @@
 
                     <!-- Danh sách công việc -->
                     <ul class="mt-4">
-                        <span class="text-xs mb-2 block"><i class="text-slate-300 fa-solid fa-chevron-down"></i> <span
-                                class="font-bold">Đã trễ hạn</span><span class="text-slate-300 ml-2 font-semibold">1</span></span>
+                        <span class="text-xs mb-2 flex items-center"><i class="text-slate-300 mr-1 fa-solid fa-chevron-down"></i> <span
+                            class="font-bold">Đã trễ hạn</span><span class="text-slate-300 ml-1 font-semibold">1</span></span>
                         <li
                             class="flex items-center justify-between py-1 px-2 bg-white hover:bg-border rounded-lg hover:cursor-pointer">
                             <div class="flex items-center">
@@ -42,8 +42,8 @@
                         <hr class="my-0 w-full mx-auto text-border">
                     </ul>
                     <ul class="mt-4">
-                        <span class="text-xs mb-2 block"><i class="text-slate-300 fa-solid fa-chevron-down"></i> <span
-                                class="font-bold">Hôm nay</span><span class="text-slate-300 ml-2 font-semibold">2</span></span>
+                        <span class="text-xs mb-2 flex items-center"><i class="text-slate-300 mr-1 fa-solid fa-chevron-down"></i> <span
+                            class="font-bold">Hôm nay</span><span class="text-slate-300 ml-1 font-semibold">2</span></span>
                         <li
                             class="flex items-center justify-between py-1 px-2 bg-white hover:bg-border rounded-lg hover:cursor-pointer">
                             <div class="flex items-center">
@@ -63,8 +63,8 @@
                         </li>
                     </ul>
                     <ul class="mt-4">
-                        <span class="text-xs mb-2 block"><i class="text-slate-300 fa-solid fa-chevron-down"></i> <span
-                                class="font-bold">Đã xong</span><span class="text-slate-300 ml-2 font-semibold">2</span></span>
+                        <span class="text-xs mb-2 flex items-center"><i class="text-slate-300 mr-1 fa-solid fa-chevron-down"></i> <span
+                                class="font-bold">Đã xong</span><span class="text-slate-300 ml-1 font-semibold">2</span></span>
                         <li
                             class="flex items-center justify-between py-1 px-2 bg-white hover:bg-border rounded-lg hover:cursor-pointer">
                             <div class="flex items-center">
