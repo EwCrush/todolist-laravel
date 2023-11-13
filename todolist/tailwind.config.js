@@ -17,9 +17,13 @@ export default {
         yellow: "#CA9C1C",
         orange: "#FF8C00",
         green: "#008000",
+        pink: "#FF69B4",
         sidebarselected: "#ecf1fe",
         border: "#f8f8f8"
       },
+      maxWidth:{
+        tag: "80px"
+      }
     },
   },
   plugins: [

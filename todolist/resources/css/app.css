@@ -44,3 +44,7 @@ html {
     padding-right: 12px;
     width: 83.3333333333%;
 }
+
+.hover-underline:hover{
+    text-decoration: underline;
+}
