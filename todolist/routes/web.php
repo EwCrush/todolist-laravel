@@ -35,4 +35,6 @@ Route::middleware('todo')->prefix('todo')->group(function () {
     Route::get('/list/today', [ToDoController::class, 'today'])->name('today');
     Route::get('/list/next-7-days', [ToDoController::class, 'next7days'])->name('next7days');
     Route::get('/list/all', [ToDoController::class, 'alltasks'])->name('alltasks');
+    Route::get('/list/custom/{id}', [ToDoController::class, 'customList'])->name('customList');
+    Route::get('/tag/{id}', [ToDoController::class, 'tasksByTag'])->name('tasksByTag');
 });

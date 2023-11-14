@@ -39,12 +39,19 @@
             <div class="py-2 px-3 text-base flex justify-between items-center hover:bg-zinc-100 cursor-pointer">
                 <span>List</span>
                 <span title="Thêm list mới" class="hover:text-primary cursor-pointer"><i
-                        class="fa-solid fa-plus"></i></span>
+                        class="fa-solid fa-plus" id="addListBtn"></i></span>
             </div>
+            <form id="addListForm" class="px-2 pt-2 hidden">
+                @csrf
+                <input type="text"
+                name="listName"
+                    class="block w-full text-sm py-0.5 px-2 text-gray-600 bg-border focus:bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                    placeholder="Thêm list mới">
+            </form>
             <ul>
                 @foreach (session('dataTodoMiddleware')['lists'] as $list)
-                    <li class="py-2 px-3 text-sm hover:bg-zinc-100 cursor-pointer">
-                        <a href="#" class="flex items-center text-gray-600 hover:text-blue-600">
+                    <li class="py-2 px-3 text-sm hover:bg-zinc-100 cursor-pointer @if ($routename == 'list-'.$list->id) bg-sidebarselected @endif">
+                        <a href="{{ route('customList', ['id' => $list->id ]) }}" class="flex items-center text-gray-600 hover:text-blue-600">
                             <i class="mr-2 fa-solid fa-list"></i>
                             {{ $list->name }}
                         </a>
@@ -59,7 +66,7 @@
             <ul>
                 @foreach (session('dataTodoMiddleware')['tags'] as $tag)
                     <li class="py-2 px-3 text-sm hover:bg-zinc-100 cursor-pointer">
-                        <a href="#" class="flex items-center text-gray-600 hover:text-blue-600">
+                        <a href="{{ route('tasksByTag', ['id' => $tag->id ]) }}" class="flex items-center text-gray-600 hover:text-blue-600">
                             <i class="mr-2 fa-solid fa-tag"></i>
                             #{{ $tag->name }}
                         </a>
@@ -88,3 +95,43 @@
 @section('content')
     @yield('tasks')
 @endsection
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const addListBtn = document.querySelector("#addListBtn")
+        const addListForm = document.querySelector("#addListForm")
+        // const username = document.querySelector('input[name="username"]')
+        // const password = document.querySelector('input[name="password"]')
+
+        addListBtn.addEventListener("click", function(e) {
+            addListForm.classList.remove('hidden');
+        });
+
+
+
+        // function signInHandle(e) {
+        //     e.preventDefault();
+        //     const data = {
+        //         username: username.value,
+        //         password: password.value,
+        //         _token: token
+        //     };
+        //     axios.post('/signin', data)
+        //         .then(response => {
+        //             console.log(response.data);
+        //             // Xử lý kết quả từ phía máy chủ (nếu có)
+        //         })
+        //         .catch(error => {
+        //             const errors = error.response.data.errors;
+        //             for (const key in errors) {
+        //                 if (errors.hasOwnProperty(key)) {
+        //                     const errorText = errors[key][0];
+        //                     document.querySelector('.error.' + key).innerText = errorText
+        //                 }
+        //             }
+        //         });
+        // }
+    })
+</script>
+
+
