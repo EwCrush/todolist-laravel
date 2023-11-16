@@ -25,6 +25,7 @@ class ToDoController extends Controller
         $user_id = session('dataTodoMiddleware')['user']->id;
         $routename = 'today';
         $title = 'Hôm nay';
+        $icon = 'fa-solid fa-calendar-day';
 
         $currentDate = Carbon::now(); // Lấy ngày hiện tại
 
@@ -87,13 +88,14 @@ class ToDoController extends Controller
 
         //return $tasksByDate;
 
-        return view('pages.user.task', compact('routename', 'title', 'tasksByDate', 'overdue', 'isDone'));
+        return view('pages.user.task', compact('routename', 'title', 'icon', 'tasksByDate', 'overdue', 'isDone'));
     }
 
     public function next7days (){
         $user_id = session('dataTodoMiddleware')['user']->id;
         $routename = 'next7days';
         $title = "7 ngày tới";
+        $icon = 'fa-solid fa-calendar-week';
 
         $currentDate = Carbon::now(); // Lấy ngày hiện tại
         $startDate = $currentDate->addDay(); // Lấy ngày mai
@@ -163,13 +165,14 @@ class ToDoController extends Controller
 
         // return $isDone;
 
-        return view('pages.user.task', compact('routename', 'title', 'tasksByDate', 'overdue', 'isDone'));
+        return view('pages.user.task', compact('routename', 'title', 'icon', 'tasksByDate', 'overdue', 'isDone'));
     }
 
     public function alltasks (){
         $user_id = session('dataTodoMiddleware')['user']->id;
         $routename = 'alltasks';
         $title = "Tất cả";
+        $icon = 'fa-solid fa-rectangle-list';
 
         $tasksByDate = [];
 
@@ -230,7 +233,7 @@ class ToDoController extends Controller
 
         //return $maxday->deadline;
 
-        return view('pages.user.task', compact('routename', 'title', 'tasksByDate', 'overdue', 'isDone'));
+        return view('pages.user.task', compact('routename', 'title', 'icon', 'tasksByDate', 'overdue', 'isDone'));
     }
 
     public function customList($id){
@@ -238,6 +241,7 @@ class ToDoController extends Controller
         $list = UserList::where('id', $id)->first();
         $routename = 'list-'.$id;
         $title = $list->name;
+        $icon = 'fa-solid fa-list';
 
         if($list->user!=$user_id || $list->type=='default'){
             return back();
@@ -284,7 +288,7 @@ class ToDoController extends Controller
                 $startDate->addDay();
             }
 
-            //lấy ra những task đã hoàn thành trong hôm nay
+            //lấy ra những task đã hoàn thành
             $isDone = Task::join('user_lists', 'user_lists.id', 'tasks.list')
             ->where('is_completed', 1)
             ->where('is_deleted', 0)
@@ -317,7 +321,7 @@ class ToDoController extends Controller
                             ->get();
             }
 
-            return view('pages.user.task', compact('routename', 'title', 'tasksByDate', 'overdue', 'isDone'));
+            return view('pages.user.task', compact('routename', 'title', 'icon', 'tasksByDate', 'overdue', 'isDone'));
         }
 
         // return $list->user;
@@ -328,6 +332,7 @@ class ToDoController extends Controller
         $tag = Tag::where('id', $id)->first();
         $routename = 'tag-'.$id;
         $title = '#'.$tag->name;
+        $icon = 'fa-solid fa-tag';
 
         if($tag->user!=$user_id){
             return back();
@@ -336,15 +341,160 @@ class ToDoController extends Controller
             $tasksByDate = [];
 
             //lấy ra task có ngày lớn nhất
-            $maxday = Task::join('user_lists', 'user_lists.id', 'tasks.list')
-                    ->where('user_lists.user', $user_id)
-                    ->where('user_lists.id', $tag->id)
+            $maxday = Task::join('description_tags', 'tasks.id', 'description_tags.task')
+                    ->join('tags', 'tags.id', 'description_tags.tag')
+                    ->where('tags.user', $user_id)
+                    ->where('tags.id', $tag->id)
                     ->where('is_completed', 0)
                     ->where('is_deleted', 0)
                     ->orderBy('deadline', 'desc')->first();
 
-            return $maxday;
+            $startDate = Carbon::now();
+            $endDate = $maxday ? Carbon::parse($maxday->deadline)->setTimezone('Asia/Ho_Chi_Minh')->addDay() : Carbon::now()->addDay();
 
+            while ($startDate->lte($endDate)) {
+                $date = $startDate->toDateString();
+                $formattedDate = $startDate->format('l, d/m/Y');
+
+                $tasks = Task::join('user_lists', 'user_lists.id', 'tasks.list')
+                        ->join('description_tags', 'tasks.id', 'description_tags.task')
+                        ->join('tags', 'tags.id', 'description_tags.tag')
+                        ->where('tags.user', $user_id)
+                        ->where('tags.id', $tag->id)
+                        ->whereDate('deadline', '<', Carbon::now()->toDateString())
+                        ->where('is_completed', 0)
+                        ->where('is_deleted', 0)
+                        ->select('tasks.*', 'user_lists.name as list_name', 'user_lists.type as list_type')
+                        ->get();
+
+                foreach($tasks as $task){
+                    $task->tags = DescriptionTag::join('tags', 'tags.id', 'description_tags.tag')
+                                ->where('task', $task->id)
+                                ->select('description_tags.*', 'tags.name', 'tags.background_color')
+                                ->get();
+                }
+
+                if (!$tasks->isEmpty()) {
+                    $tasksByDate[$formattedDate] = $tasks;
+                }
+
+                $startDate->addDay();
+            }
+
+            //lấy ra những task đã hoàn thành
+            $isDone = Task::join('user_lists', 'user_lists.id', 'tasks.list')
+                        ->join('description_tags', 'tasks.id', 'description_tags.task')
+                        ->join('tags', 'tags.id', 'description_tags.tag')
+                        ->where('tags.user', $user_id)
+                        ->where('tags.id', $tag->id)
+                        ->where('is_completed', 1)
+                        ->where('is_deleted', 0)
+                        ->select('tasks.*', 'user_lists.name as list_name', 'user_lists.type as list_type')
+                        ->get();
+
+            foreach($isDone as $task){
+                $task->tags = DescriptionTag::join('tags', 'tags.id', 'description_tags.tag')
+                            ->where('task', $task->id)
+                            ->select('description_tags.*', 'tags.name', 'tags.background_color')
+                            ->get();
+            }
+
+            $overdue = Task::join('user_lists', 'user_lists.id', 'tasks.list')
+            ->join('description_tags', 'tasks.id', 'description_tags.task')
+            ->join('tags', 'tags.id', 'description_tags.tag')
+            ->where('tags.user', $user_id)
+            ->where('tags.id', $tag->id)
+            ->where('is_completed', 0)
+            ->where('is_deleted', 0)
+            ->select('tasks.*', 'user_lists.name as list_name', 'user_lists.type as list_type')
+            ->get();
+
+            foreach($overdue as $task){
+                $task->tags = DescriptionTag::join('tags', 'tags.id', 'description_tags.tag')
+                            ->where('task', $task->id)
+                            ->select('description_tags.*', 'tags.name', 'tags.background_color')
+                            ->get();
+            }
+
+            return view('pages.user.task', compact('routename', 'title', 'icon', 'tasksByDate', 'overdue', 'isDone'));
         }
+    }
+
+    public function getCompleted(){
+        $user_id = session('dataTodoMiddleware')['user']->id;
+        $title = "Đã xong";
+        $icon = "fa-solid fa-square-check";
+        $routename = "completed";
+
+        $completed = [];
+
+        //lấy ra task có ngày lớn nhất
+        $maxday = Task::join('user_lists', 'user_lists.id', 'tasks.list')
+                ->where('user_lists.user', $user_id)
+                ->where('is_completed', 1)
+                ->where('is_deleted', 0)
+                ->orderBy('deadline', 'desc')->first();
+
+        $minday = Task::join('user_lists', 'user_lists.id', 'tasks.list')
+                ->where('user_lists.user', $user_id)
+                ->where('is_completed', 1)
+                ->where('is_deleted', 0)
+                ->orderBy('deadline', 'asc')->first();
+
+        $startDate = $minday ? Carbon::parse($minday->deadline)->setTimezone('Asia/Ho_Chi_Minh')->subDay() : Carbon::now()->addDay();
+        $endDate = $maxday ? Carbon::parse($maxday->deadline)->setTimezone('Asia/Ho_Chi_Minh')->addDay() : Carbon::now()->addDay();
+
+        while ($startDate->lte($endDate)) {
+            $date = $startDate->toDateString();
+            $formattedDate = $startDate->format('l, d/m/Y');
+
+            $tasks = Task::join('user_lists', 'user_lists.id', 'tasks.list')
+            ->whereDate('deadline', $date)
+            ->where('is_completed', 1)
+            ->where('is_deleted', 0)
+            ->where('user_lists.user', $user_id)
+            ->select('tasks.*', 'user_lists.name as list_name', 'user_lists.type as list_type')
+            ->get();
+
+            foreach($tasks as $task){
+                $task->tags = DescriptionTag::join('tags', 'tags.id', 'description_tags.tag')
+                            ->where('task', $task->id)
+                            ->select('description_tags.*', 'tags.name', 'tags.background_color')
+                            ->get();
+            }
+
+            if (!$tasks->isEmpty()) {
+                $completed[$formattedDate] = $tasks;
+            }
+
+            $startDate->addDay();
+        }
+
+        return view('pages.user.completed', compact('routename', 'title', 'icon', 'completed'));
+    }
+
+    public function getTrash(){
+        $user_id = session('dataTodoMiddleware')['user']->id;
+        $routename = 'trash';
+        $icon = 'fa-solid fa-trash-can';
+        $title = 'Đã xóa';
+
+        $deleted = Task::join('user_lists', 'user_lists.id', 'tasks.list')
+                ->where('is_deleted', 1)
+                ->where('user_lists.user', $user_id)
+                ->orderBy('deadline', 'desc')
+                ->select('tasks.*', 'user_lists.name as list_name', 'user_lists.type as list_type')
+                ->get();
+
+        foreach($deleted as $task){
+            $task->tags = DescriptionTag::join('tags', 'tags.id', 'description_tags.tag')
+                        ->where('task', $task->id)
+                        ->select('description_tags.*', 'tags.name', 'tags.background_color')
+                        ->get();
+        }
+
+        //return $deleted;
+
+        return view('pages.user.trash', compact('routename', 'title', 'icon', 'deleted'));
     }
 }

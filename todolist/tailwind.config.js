@@ -21,8 +21,8 @@ export default {
         sidebarselected: "#ecf1fe",
         border: "#f8f8f8"
       },
-      maxWidth:{
-        tag: "80px"
+      width:{
+        content: "98%"
       }
     },
   },

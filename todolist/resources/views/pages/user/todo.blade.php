@@ -65,8 +65,8 @@
             </div>
             <ul>
                 @foreach (session('dataTodoMiddleware')['tags'] as $tag)
-                    <li class="py-2 px-3 text-sm hover:bg-zinc-100 cursor-pointer">
-                        <a href="{{ route('tasksByTag', ['id' => $tag->id ]) }}" class="flex items-center text-gray-600 hover:text-blue-600">
+                    <li class="py-2 px-3 text-sm hover:bg-zinc-100 cursor-pointer @if ($routename == 'tag-'.$tag->id) bg-sidebarselected @endif">
+                        <a href="{{ route('tasksByTag', ['id' => $tag->id ]) }}" class="flex items-center hover:text-blue-600" style="color: {{ $tag->background_color }}">
                             <i class="mr-2 fa-solid fa-tag"></i>
                             #{{ $tag->name }}
                         </a>
@@ -75,14 +75,14 @@
             </ul>
             <hr class="my-1" />
             <ul>
-                <li class="py-2 px-3 text-base hover:bg-zinc-100 cursor-pointer">
-                    <a href="#" class="flex items-center text-gray-600 hover:text-blue-600">
+                <li class="py-2 px-3 text-base hover:bg-zinc-100 cursor-pointer @if ($routename == 'completed') bg-sidebarselected @endif">
+                    <a href="{{ route('getCompleted') }}" class="flex items-center text-gray-600 hover:text-blue-600">
                         <i class="mr-2 fa-solid fa-square-check"></i>
                         Đã xong
                     </a>
                 </li>
-                <li class="py-2 px-3 text-base hover:bg-zinc-100 cursor-pointer">
-                    <a href="#" class="flex items-center text-gray-600 hover:text-blue-600">
+                <li class="py-2 px-3 text-base hover:bg-zinc-100 cursor-pointer @if ($routename == 'trash') bg-sidebarselected @endif">
+                    <a href="{{ route('getTrash') }}" class="flex items-center text-gray-600 hover:text-blue-600">
                         <i class="mr-2 fa-solid fa-trash-can"></i>
                         Thùng rác
                     </a>

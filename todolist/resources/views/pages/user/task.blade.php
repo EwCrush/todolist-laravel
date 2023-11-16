@@ -1,9 +1,9 @@
 @extends('pages.user.todo')
 @section('tasks')
-    <div class="flex w-full bg-white">
-        <div class="min-h-screen w-3/5 py-6 px-4 shadow-md">
+    <div class="w-full flex justify-center">
+        <div class="min-h-screen  py-6 px-4 shadow-md w-content">
             <div class="w-full text-xl">
-                <i class="mr-2 fa-solid fa-list"></i> {{ $title }}
+                <i class="mr-2 {{ $icon }}"></i> {{ $title }}
             </div>
             <div class="container mx-auto mt-5">
                 <div class="bg-white rounded-lg">
@@ -57,8 +57,8 @@
                                                     style="background-color: #ccc"
                                                     title="{{ $remainingTags->pluck('name')->implode(', ') }}">+{{ $remainingTagsCount }}</span>
                                             @endif
-                                            <a href="#"
-                                                class="text-xs text-slate-300 px-1 hover:cursor-pointer hover-underline">{{ $task->list_name }}
+                                            <a href="{{ route('customList', ['id' => $task->list]) }}"
+                                                class="text-xs text-slate-300 px-1 hover:cursor-pointer hover-underline">{{ $task->list_name == 'Mặc định' ? '' : $task->list_name }}
                                             </a>
                                             <span
                                                 class="text-xs text-red">{{ \Carbon\Carbon::parse($task->deadline)->format('d F') }}</span>
@@ -103,8 +103,8 @@
                                                         style="background-color: #ccc"
                                                         title="{{ $remainingTags->pluck('name')->implode(', ') }}">+{{ $remainingTagsCount }}</span>
                                                 @endif
-                                                <a href="#"
-                                                    class="text-xs text-slate-300 px-1 hover:cursor-pointer hover-underline">{{ $task->list_name }}
+                                                <a href="{{ route('customList', ['id' => $task->list]) }}"
+                                                    class="text-xs text-slate-300 px-1 hover:cursor-pointer hover-underline">{{ $task->list_name == 'Mặc định' ? '' : $task->list_name }}
                                                 </a>
                                                 <span
                                                     class="text-xs text-primary">{{ \Carbon\Carbon::parse($task->deadline)->format('d F') }}</span>
@@ -149,25 +149,23 @@
                                                 style="background-color: #ccc"
                                                 title="{{ $remainingTags->pluck('name')->implode(', ') }}">+{{ $remainingTagsCount }}</span>
                                         @endif
-                                        <a href="#"
-                                            class="text-xs text-slate-300 px-1 hover:cursor-pointer hover-underline">{{ $task->list_name }}
+                                        <a href="{{ route('customList', ['id' => $task->list]) }}"
+                                            class="text-xs text-slate-300 px-1 hover:cursor-pointer hover-underline">{{ $task->list_name == 'Mặc định' ? '' : $task->list_name }}
                                         </a>
                                         <span
                                             class="text-xs text-slate-300 mr-1">{{ \Carbon\Carbon::parse($task->deadline)->format('d F') }}</span>
                                         <button class="text-slate-300"><i class="fa-solid fa-circle-xmark"></i></button>
                                     </div>
                                     {{-- \Carbon\Carbon::parse($task->deadline)->format('d F') --}}
-                </div>
-                </li>
-                <hr class="my-0 w-full mx-auto text-border">
-                @endforeach
-                </ul>
-                @endif
 
+                                </li>
+                                <hr class="my-0 w-full mx-auto text-border">
+                            @endforeach
+                        </ul>
+                    @endif
+
+                </div>
             </div>
         </div>
 
-    </div>
-    <div class="min-h-screen w-2/5 p-4">test ne</div>
-    </div>
-@endsection
+    @endsection
