@@ -12,5 +12,6 @@ class User extends Model
     use HasApiTokens;
 
     protected $guarded = [];
+    public $timestamps = false;
     protected $hidden = ['password_account', 'OTP', 'created_at', 'updated_at'];
 }

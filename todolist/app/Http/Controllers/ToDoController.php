@@ -497,4 +497,56 @@ class ToDoController extends Controller
 
         return view('pages.user.trash', compact('routename', 'title', 'icon', 'deleted'));
     }
+
+    public function putToTrash($id){
+        $task = Task::join('user_lists', 'user_lists.id', 'tasks.list')->where('tasks.id', $id)->first();
+        $user_id = session('dataTodoMiddleware')['user']->id;
+
+        if(!$task) return back();
+        if($task->user != $user_id) return back();
+        if($task->is_deleted == '1') return back();
+
+        Task::where('id', $id)->update(['is_deleted' => 1]);
+        return back();
+    }
+
+
+    public function restore($id){
+        $task = Task::join('user_lists', 'user_lists.id', 'tasks.list')->where('tasks.id', $id)->first();
+        $user_id = session('dataTodoMiddleware')['user']->id;
+
+        if(!$task) return back();
+        if($task->user != $user_id) return back();
+        if($task->is_deleted == '0') return back();
+
+        Task::where('id', $id)->update(['is_deleted' => 0]);
+        return back();
+    }
+
+    public function checkCompleted($id){
+        $task = Task::join('user_lists', 'user_lists.id', 'tasks.list')->where('tasks.id', $id)->first();
+        $user_id = session('dataTodoMiddleware')['user']->id;
+
+        if(!$task) return back();
+        if($task->user != $user_id) return back();
+        if($task->is_deleted == '1') return back();
+
+        Task::where('id', $id)->update(['is_completed' => $task->is_completed ? 0 : 1]);
+
+        return back();
+    }
+
+    public function addNewTask(Request $request){
+        $user_id = session('dataTodoMiddleware')['user']->id;
+        $defaultList = UserList::where('user', $user_id)->where('type', 'default')->first();
+
+        if($defaultList){
+            UserList::create([
+                'name' => 'Mặc định',
+                 'type' => 'default',
+                 'user' => $user_id,
+            ]);
+        }
+        return $request;
+    }
 }

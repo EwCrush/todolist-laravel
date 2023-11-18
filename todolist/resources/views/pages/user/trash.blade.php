@@ -28,9 +28,9 @@
                                         </div>
                                         <div class="">
                                             @php
-                                                $tags = $task->tags->take(2);
+                                                $tags = $task->tags->take(3);
                                                 $remainingTagsCount = $task->tags->count() - count($tags);
-                                                $remainingTags = $task->tags->slice(2);
+                                                $remainingTags = $task->tags->slice(3);
                                             @endphp
                                             @foreach ($tags as $tag)
                                                 <span class="text-xs text-white p-1 ml-px rounded-full"
@@ -47,7 +47,16 @@
                                             </a>
                                             <span
                                                 class="text-xs text-slate-300 mr-1">{{ \Carbon\Carbon::parse($task->deadline)->format('d F') }}</span>
-                                            <button class="text-slate-300"><i class="fa-solid fa-rotate-left"></i></button>
+                                            <form id="putForm{{ $task->id }}"
+                                                action="{{ route('restore', ['id' => $task->id]) }}" method="POST"
+                                                style="display: none;">
+                                                @csrf
+                                                @method('PUT')
+                                            </form>
+                                            <button class="text-slate-300" title="Khôi phục"
+                                                onclick="event.preventDefault(); document.getElementById('putForm{{ $task->id }}').submit();">
+                                                <i class="fa-solid fa-rotate-left"></i>
+                                            </button>
                                             <button class="text-slate-300"><i
                                                     class="ml-2 fa-solid fa-trash-can"></i></button>
                                         </div>
@@ -67,9 +76,9 @@
                                             </div>
                                             <div class="">
                                                 @php
-                                                    $tags = $task->tags->take(2);
+                                                    $tags = $task->tags->take(3);
                                                     $remainingTagsCount = $task->tags->count() - count($tags);
-                                                    $remainingTags = $task->tags->slice(2);
+                                                    $remainingTags = $task->tags->slice(3);
                                                 @endphp
                                                 @foreach ($tags as $tag)
                                                     <span class="text-xs text-white p-1 ml-px rounded-full"
@@ -86,8 +95,16 @@
                                                 </a>
                                                 <span
                                                     class="text-xs text-red mr-1">{{ \Carbon\Carbon::parse($task->deadline)->format('d F') }}</span>
-                                                <button class="text-slate-300"><i
-                                                        class="fa-solid fa-rotate-left"></i></button>
+                                                <form id="putForm{{ $task->id }}"
+                                                    action="{{ route('restore', ['id' => $task->id]) }}" method="POST"
+                                                    style="display: none;">
+                                                    @csrf
+                                                    @method('PUT')
+                                                </form>
+                                                <button class="text-slate-300" title="Khôi phục"
+                                                    onclick="event.preventDefault(); document.getElementById('putForm{{ $task->id }}').submit();">
+                                                    <i class="fa-solid fa-rotate-left"></i>
+                                                </button>
                                                 <button class="text-slate-300"><i
                                                         class="ml-2 fa-solid fa-trash-can"></i></button>
                                             </div>
@@ -107,9 +124,9 @@
                                             </div>
                                             <div class="">
                                                 @php
-                                                    $tags = $task->tags->take(2);
+                                                    $tags = $task->tags->take(3);
                                                     $remainingTagsCount = $task->tags->count() - count($tags);
-                                                    $remainingTags = $task->tags->slice(2);
+                                                    $remainingTags = $task->tags->slice(3);
                                                 @endphp
                                                 @foreach ($tags as $tag)
                                                     <span class="text-xs text-white p-1 ml-px rounded-full"
@@ -126,9 +143,17 @@
                                                 </a>
                                                 <span
                                                     class="text-xs mr-1 text-primary">{{ \Carbon\Carbon::parse($task->deadline)->format('d F') }}</span>
-                                                <a href="" class="text-slate-300"><i
-                                                        class="fa-solid fa-rotate-left"></i></a>
-                                                <button class="text-slate-300"><i
+                                                <form id="putForm{{ $task->id }}"
+                                                    action="{{ route('restore', ['id' => $task->id]) }}" method="POST"
+                                                    style="display: none;">
+                                                    @csrf
+                                                    @method('PUT')
+                                                </form>
+                                                <button class="text-slate-300" title="Khôi phục"
+                                                    onclick="event.preventDefault(); document.getElementById('putForm{{ $task->id }}').submit();">
+                                                    <i class="fa-solid fa-rotate-left"></i>
+                                                </button>
+                                                <button title="Xóa vĩnh viễn" class="text-slate-300"><i
                                                         class="ml-2 fa-solid fa-trash-can"></i></button>
                                             </div>
                                             {{-- \Carbon\Carbon::parse($task->deadline)->format('d F') --}}

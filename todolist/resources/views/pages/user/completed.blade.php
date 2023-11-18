@@ -21,16 +21,23 @@
                                     <li id="task-{{ $task->id }}"
                                         class="task flex items-center justify-between py-1 px-2 bg-white hover:bg-border rounded-lg hover:cursor-pointer">
                                         <div class="flex items-center">
+                                            <form id="checkForm{{ $task->id }}"
+                                                action="{{ route('checkCompleted', ['id' => $task->id]) }}" method="POST"
+                                                style="display: none;">
+                                                @csrf
+                                                @method('PUT')
+                                            </form>
                                             <input type="checkbox" checked
+                                                onchange="document.getElementById('checkForm{{ $task->id }}').submit();"
                                                 class="w-4 h-4 mr-2 form-checkbox border-2 accent-slate-200 border-blue-500 hover:cursor-pointer">
                                             <span
                                                 class="font-thin text-sm text-slate-300 line-through">{{ $task->title }}</span>
                                         </div>
                                         <div class="">
                                             @php
-                                                $tags = $task->tags->take(2);
+                                                $tags = $task->tags->take(3);
                                                 $remainingTagsCount = $task->tags->count() - count($tags);
-                                                $remainingTags = $task->tags->slice(2);
+                                                $remainingTags = $task->tags->slice(3);
                                             @endphp
                                             @foreach ($tags as $tag)
                                                 <span class="text-xs text-white p-1 ml-px rounded-full"
@@ -47,7 +54,16 @@
                                             </a>
                                             <span
                                                 class="text-xs text-slate-300 mr-1">{{ \Carbon\Carbon::parse($task->deadline)->format('d F') }}</span>
-                                            <button class="text-slate-300"><i class="fa-solid fa-circle-xmark"></i></button>
+                                            <form id="putForm{{ $task->id }}"
+                                                action="{{ route('putToTrash', ['id' => $task->id]) }}" method="POST"
+                                                style="display: none;">
+                                                @csrf
+                                                @method('PUT')
+                                            </form>
+                                            <button class="text-slate-300 ml-1"
+                                                onclick="event.preventDefault(); document.getElementById('putForm{{ $task->id }}').submit();">
+                                                <i class="fa-solid fa-circle-xmark"></i>
+                                            </button>
                                         </div>
                                         {{-- \Carbon\Carbon::parse($task->deadline)->format('d F') --}}
                                     </li>

@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class UserList extends Model
 {
     use HasFactory;
+    public $incrementing = true;
+    protected $keyType = 'int';
+    protected $guarded = [];
+    public $timestamps = false;
 }

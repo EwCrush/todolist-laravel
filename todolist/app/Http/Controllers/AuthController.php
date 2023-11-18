@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\Models\User;
+use App\Models\UserList;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\SignUpRequest;
 use Illuminate\Support\Facades\Auth;
@@ -36,10 +37,34 @@ class AuthController extends Controller
     }
 
     public function signin(){
-        return view('pages.signin');
+        if(session('token')){
+            return redirect()->route('todo');
+        }
+        else{
+            return view('pages.signin');
+        }
     }
 
     public function signup(){
-        return view('pages.signup');
+        if(session('token')){
+            return redirect()->route('todo');
+        }
+        else{
+            return view('pages.signup');
+        }
+    }
+
+    public function handleSignup(SignUpRequest $request){
+        $user = User::create([
+            'fullname' => $request->fullname,
+            'email' => $request->email,
+            'username_account' => $request->username,
+            'password_account' => Hash::make($request->password),
+            'avatar' => 'default.jpg',
+            'OTP' => '',
+        ]);
+
+        $message = 'Đăng ký tài khoản thành công';
+        return redirect()->route('signin')->with('signup', $message);
     }
 }
