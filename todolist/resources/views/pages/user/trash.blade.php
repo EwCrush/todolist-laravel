@@ -53,12 +53,19 @@
                                                 @csrf
                                                 @method('PUT')
                                             </form>
+                                            <form id="deleteForm{{ $task->id }}"
+                                                action="{{ route('deleteTask', ['id' => $task->id]) }}" method="POST"
+                                                style="display: none;">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
                                             <button class="text-slate-300" title="Khôi phục"
                                                 onclick="event.preventDefault(); document.getElementById('putForm{{ $task->id }}').submit();">
                                                 <i class="fa-solid fa-rotate-left"></i>
                                             </button>
-                                            <button class="text-slate-300"><i
-                                                    class="ml-2 fa-solid fa-trash-can"></i></button>
+                                            <button title="Xóa vĩnh viễn" class="text-slate-300"
+                                                onclick="event.preventDefault(); document.getElementById('deleteForm{{ $task->id }}').submit();">
+                                                <i class="ml-2 fa-solid fa-trash-can"></i></button>
                                         </div>
                                         {{-- \Carbon\Carbon::parse($task->deadline)->format('d F') --}}
 
@@ -101,12 +108,19 @@
                                                     @csrf
                                                     @method('PUT')
                                                 </form>
+                                                <form id="deleteForm{{ $task->id }}"
+                                                    action="{{ route('deleteTask', ['id' => $task->id]) }}" method="POST"
+                                                    style="display: none;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
                                                 <button class="text-slate-300" title="Khôi phục"
                                                     onclick="event.preventDefault(); document.getElementById('putForm{{ $task->id }}').submit();">
                                                     <i class="fa-solid fa-rotate-left"></i>
                                                 </button>
-                                                <button class="text-slate-300"><i
-                                                        class="ml-2 fa-solid fa-trash-can"></i></button>
+                                                <button title="Xóa vĩnh viễn" class="text-slate-300"
+                                                    onclick="event.preventDefault(); document.getElementById('deleteForm{{ $task->id }}').submit();">
+                                                    <i class="ml-2 fa-solid fa-trash-can"></i></button>
                                             </div>
                                             {{-- \Carbon\Carbon::parse($task->deadline)->format('d F') --}}
                                         </div>
@@ -149,12 +163,19 @@
                                                     @csrf
                                                     @method('PUT')
                                                 </form>
+                                                <form id="deleteForm{{ $task->id }}"
+                                                    action="{{ route('deleteTask', ['id' => $task->id]) }}" method="POST"
+                                                    style="display: none;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
                                                 <button class="text-slate-300" title="Khôi phục"
                                                     onclick="event.preventDefault(); document.getElementById('putForm{{ $task->id }}').submit();">
                                                     <i class="fa-solid fa-rotate-left"></i>
                                                 </button>
-                                                <button title="Xóa vĩnh viễn" class="text-slate-300"><i
-                                                        class="ml-2 fa-solid fa-trash-can"></i></button>
+                                                <button title="Xóa vĩnh viễn" class="text-slate-300"
+                                                    onclick="event.preventDefault(); document.getElementById('deleteForm{{ $task->id }}').submit();">
+                                                    <i class="ml-2 fa-solid fa-trash-can"></i></button>
                                             </div>
                                             {{-- \Carbon\Carbon::parse($task->deadline)->format('d F') --}}
                                         </div>

@@ -41,6 +41,7 @@ Route::middleware('todo')->prefix('todo')->group(function () {
     Route::get('/list/completed', [ToDoController::class, 'getCompleted'])->name('getCompleted');
     Route::put('/task/trash/{id}', [ToDoController::class, 'putToTrash'])->name('putToTrash');
     Route::put('/task/restore/{id}', [ToDoController::class, 'restore'])->name('restore');
+    Route::delete('/task/delete/{id}', [ToDoController::class, 'deleteTask'])->name('deleteTask');
     Route::put('/task/completed/{id}', [ToDoController::class, 'checkCompleted'])->name('checkCompleted');
     Route::post('/task', [ToDoController::class, 'addNewTask'])->name('addNewTask');
 });

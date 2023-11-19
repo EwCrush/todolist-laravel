@@ -361,7 +361,7 @@ class ToDoController extends Controller
                         ->join('tags', 'tags.id', 'description_tags.tag')
                         ->where('tags.user', $user_id)
                         ->where('tags.id', $tag->id)
-                        ->whereDate('deadline', '<', Carbon::now()->toDateString())
+                        ->whereDate('deadline', $date)
                         ->where('is_completed', 0)
                         ->where('is_deleted', 0)
                         ->select('tasks.*', 'user_lists.name as list_name', 'user_lists.type as list_type')
@@ -402,11 +402,13 @@ class ToDoController extends Controller
             $overdue = Task::join('user_lists', 'user_lists.id', 'tasks.list')
             ->join('description_tags', 'tasks.id', 'description_tags.task')
             ->join('tags', 'tags.id', 'description_tags.tag')
+            ->whereDate('deadline', '<', Carbon::now()->toDateString())
             ->where('tags.user', $user_id)
             ->where('tags.id', $tag->id)
             ->where('is_completed', 0)
             ->where('is_deleted', 0)
             ->select('tasks.*', 'user_lists.name as list_name', 'user_lists.type as list_type')
+            ->distinct()
             ->get();
 
             foreach($overdue as $task){
@@ -415,6 +417,8 @@ class ToDoController extends Controller
                             ->select('description_tags.*', 'tags.name', 'tags.background_color')
                             ->get();
             }
+
+            //return $overdue;
 
             return view('pages.user.task', compact('routename', 'title', 'icon', 'tasksByDate', 'overdue', 'isDone'));
         }
@@ -523,6 +527,23 @@ class ToDoController extends Controller
         return back();
     }
 
+    public function deleteTask($id){
+        $task = Task::join('user_lists', 'user_lists.id', 'tasks.list')->where('tasks.id', $id)->first();
+        $user_id = session('dataTodoMiddleware')['user']->id;
+
+        if(!$task) return back();
+        if($task->user != $user_id) return back();
+
+        //xóa tag trong task description
+        $description_tags = DescriptionTag::where('task', $id)->get();
+        foreach ($description_tags as $item) {
+            $item->delete();
+        }
+
+        Task::where('id', $id)->delete();
+        return back();
+    }
+
     public function checkCompleted($id){
         $task = Task::join('user_lists', 'user_lists.id', 'tasks.list')->where('tasks.id', $id)->first();
         $user_id = session('dataTodoMiddleware')['user']->id;
@@ -537,16 +558,40 @@ class ToDoController extends Controller
     }
 
     public function addNewTask(Request $request){
+        if(!$request->titletask) return back();
         $user_id = session('dataTodoMiddleware')['user']->id;
-        $defaultList = UserList::where('user', $user_id)->where('type', 'default')->first();
+         $checkDefaultList = UserList::where('user', $user_id)->where('type', 'default')->first();
 
-        if($defaultList){
+        $deadline = $request->datetask ?: Carbon::now()->toDateString();
+
+        if($checkDefaultList){
             UserList::create([
                 'name' => 'Mặc định',
-                 'type' => 'default',
-                 'user' => $user_id,
+                'type' => 'default',
+                'user' => $user_id,
             ]);
         }
-        return $request;
+
+        $defaultList = UserList::where('user', $user_id)->where('type', 'default')->first();
+        $list = $request->listtask ?: $defaultList->id;
+
+        $newTask = Task::create([
+            'title' => $request->titletask,
+            'deadline' => $deadline,
+            'is_completed' => 0,
+            'is_deleted' => 0,
+            'description' => '',
+            'list' => $list,
+        ]);
+
+        if($request->tagtask){
+            DescriptionTag::create([
+                'task' => $newTask->id,
+                'tag' => $request->tagtask
+            ]);
+        }
+
+        return back();
+        // return $list;
     }
 }

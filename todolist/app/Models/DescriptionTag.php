@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class DescriptionTag extends Model
 {
     use HasFactory;
+    protected $guarded = [];
+    public $timestamps = false;
 }

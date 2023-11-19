@@ -32,8 +32,8 @@
                         </div>
                     </form>
 
-                    <p>Last Segment: {{ $lastSegment }}</p>
-                    <p>Second Last Segment: {{ $secondLastSegment }}</p>
+                    {{-- <p>Last Segment: {{ $lastSegment }}</p>
+                    <p>Second Last Segment: {{ $secondLastSegment }}</p> --}}
 
                     <!-- Danh sách công việc -->
                     @if ($overdue && count($overdue) > 0)
