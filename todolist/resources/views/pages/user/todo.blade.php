@@ -8,7 +8,7 @@
                     <span
                         class="line-clamp-1 text-sm font-semibold">{{ session('dataTodoMiddleware')['user']->fullname }}</span>
                     <div class="line-clamp-1 text-xs text-gray-500 dark:text-gray-400">
-                        {{ session('dataTodoMiddleware')['user']->username_account }}</div>
+                        {{ session('dataTodoMiddleware')['user']->email }}</div>
                 </div>
             </div>
             <ul>

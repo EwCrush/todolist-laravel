@@ -71,7 +71,7 @@
                         <p class="mx-4 mb-0 text-center dark:text-neutral-200">Hoặc</p>
                     </div>
 
-                    <a href="#"
+                    <a href="{{ route('googleLogin') }}"
                         class="flex items-center justify-center px-6 py-3 mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg dark:border-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <svg class="h-6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-0.5 0 48 48" version="1.1">
@@ -115,7 +115,7 @@
                         <span class="mx-2">Đăng nhập với Facebook</span>
                     </a>
 
-                    <a href="#"
+                    <a href="{{ route('githubLogin') }}"
                         class="flex items-center justify-center px-6 py-3 mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg dark:border-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <svg class="h-6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 73 73" version="1.1">

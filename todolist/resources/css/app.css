@@ -36,13 +36,13 @@ html {
 .grid__column-sidebar{
     padding-left: 12px;
     padding-right: 12px;
-    width: 16.6666666667%;
+    width: 20%;
 }
 
 .grid__column-content{
     padding-left: 12px;
     padding-right: 12px;
-    width: 83.3333333333%;
+    width: 80%;
 }
 
 .hover-underline:hover{

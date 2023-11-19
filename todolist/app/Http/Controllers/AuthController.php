@@ -10,6 +10,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\SignUpRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -66,5 +67,25 @@ class AuthController extends Controller
 
         $message = 'Đăng ký tài khoản thành công';
         return redirect()->route('signin')->with('signup', $message);
+    }
+
+    public function googleLogin(){
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function googleLoginHandle(){
+        $user = Socialite::driver('google')->user();
+
+        dd($user);
+    }
+
+    public function githubLogin(){
+        return Socialite::driver('github')->redirect();
+    }
+
+    public function githubLoginHandle(){
+        $user = Socialite::driver('github')->user();
+
+        dd($user);
     }
 }

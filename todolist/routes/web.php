@@ -30,6 +30,12 @@ Route::get('/signin', [AuthController::class, 'signin'])->name('signin');
 Route::post('/signup', [AuthController::class, 'handleSignup']);
 Route::get('/signup', [AuthController::class, 'signup'])->name('signup');
 
+//socialite
+Route::get('/auth/google', [AuthController::class, 'googleLogin'])->name('googleLogin');
+Route::get('/auth/google/callback', [AuthController::class, 'googleLoginHandle'])->name('googleLoginHandle');
+Route::get('/auth/github', [AuthController::class, 'githubLogin'])->name('githubLogin');
+Route::get('/auth/github/callback', [AuthController::class, 'githubLoginHandle'])->name('githubLoginHandle');
+
 Route::middleware('todo')->prefix('todo')->group(function () {
     Route::get('/', [ToDoController::class, 'todo'])->name('todo');
     Route::get('/list/today', [ToDoController::class, 'today'])->name('today');
