@@ -23,7 +23,7 @@
         </script>
     @endif
     <section class="bg-white dark:bg-gray-900">
-        <div class="container flex items-center justify-center mt-24 px-6 mx-auto">
+        <div class="container flex items-center justify-center mt-28 px-6 mx-auto">
             <form class="w-full max-w-md" method="POST">
                 @csrf
                 <div class="relative flex items-center mt-4">
@@ -71,7 +71,7 @@
                         <p class="mx-4 mb-0 text-center dark:text-neutral-200">Hoặc</p>
                     </div>
 
-                    <a href="{{ route('googleLogin') }}"
+                    <a href="{{ route('socialLogin', ['social' => 'google' ]) }}"
                         class="flex items-center justify-center px-6 py-3 mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg dark:border-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <svg class="h-6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-0.5 0 48 48" version="1.1">
@@ -98,7 +98,7 @@
                         <span class="mx-2">Đăng nhập với Google</span>
                     </a>
 
-                    <a href="#"
+                    {{-- <a href="#"
                         class="flex items-center justify-center px-6 py-3 mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg dark:border-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <svg class="h-6 w-6 mx-2" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 48 48" version="1.1">
@@ -113,9 +113,9 @@
                             </g>
                         </svg>
                         <span class="mx-2">Đăng nhập với Facebook</span>
-                    </a>
+                    </a> --}}
 
-                    <a href="{{ route('githubLogin') }}"
+                    <a href="{{ route('socialLogin', ['social' => 'github' ]) }}"
                         class="flex items-center justify-center px-6 py-3 mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg dark:border-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <svg class="h-6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 73 73" version="1.1">

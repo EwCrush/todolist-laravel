@@ -29,7 +29,7 @@ class TodoMiddleware
 
             if ($personalAccessToken) {
                 $user = $personalAccessToken->tokenable;
-                $user->image = Cloudder::show('ogq5sa8cuq3m0gnlqswx');
+                $user->image = Cloudder::show('avatar/'. $user->avatar);
                 $lists = UserList::where('user', $user->id)->where('type', 'custom')->get();
                 $tags = Tag::where('user', $user->id)->get();
                 session(['dataTodoMiddleware' => [

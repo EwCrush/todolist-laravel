@@ -560,11 +560,11 @@ class ToDoController extends Controller
     public function addNewTask(Request $request){
         if(!$request->titletask) return back();
         $user_id = session('dataTodoMiddleware')['user']->id;
-         $checkDefaultList = UserList::where('user', $user_id)->where('type', 'default')->first();
+        $checkDefaultList = UserList::where('user', $user_id)->where('type', 'default')->first();
 
         $deadline = $request->datetask ?: Carbon::now()->toDateString();
 
-        if($checkDefaultList){
+        if(!$checkDefaultList){
             UserList::create([
                 'name' => 'Mặc định',
                 'type' => 'default',

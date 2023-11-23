@@ -11,6 +11,8 @@ use App\Http\Requests\SignUpRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
+use Carbon\Carbon;
+use JD\Cloudder\Facades\Cloudder;
 
 class AuthController extends Controller
 {
@@ -61,7 +63,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'username_account' => $request->username,
             'password_account' => Hash::make($request->password),
-            'avatar' => 'default.jpg',
+            'avatar' => 'default',
             'OTP' => '',
         ]);
 
@@ -69,23 +71,43 @@ class AuthController extends Controller
         return redirect()->route('signin')->with('signup', $message);
     }
 
-    public function googleLogin(){
-        return Socialite::driver('google')->redirect();
+    public function socialLogin($social){
+        return Socialite::driver($social)->redirect();
     }
 
-    public function googleLoginHandle(){
-        $user = Socialite::driver('google')->user();
+    public function socialLoginHandle($social){
+        $user = Socialite::driver($social)->user();
+        $social_id = $user->id;
+        $isExist = User::where('social_id', $social_id)->first();
 
-        dd($user);
-    }
+        if(!$isExist){
+            $imgURL = $user->avatar;
+            $filename = $user->id.'_'.Carbon::now()->format('YmdHis');
+            Cloudder::upload($imgURL, 'avatar/' . $filename);
 
-    public function githubLogin(){
-        return Socialite::driver('github')->redirect();
-    }
+            $newUser = User::create([
+                'fullname' => $user->name,
+                'email' => $user->email,
+                'avatar' => $filename,
+                'social_id' => $social_id
+            ]);
 
-    public function githubLoginHandle(){
-        $user = Socialite::driver('github')->user();
-
-        dd($user);
+            $token = $newUser->createToken('authToken')->plainTextToken;
+                $data = [
+                    'access_token' => $token,
+                    'type_token' => 'Bearer',
+                ];
+            session()->put('token', $data);
+            return redirect()->route('todo');
+        }
+        else{
+            $token = $isExist->createToken('authToken')->plainTextToken;
+            $data = [
+                'access_token' => $token,
+                'type_token' => 'Bearer',
+            ];
+            session()->put('token', $data);
+            return redirect()->route('todo');
+        }
     }
 }
