@@ -110,4 +110,30 @@ class AuthController extends Controller
             return redirect()->route('todo');
         }
     }
+
+    public function uploadImg(Request $request){
+        $user_id = session('dataTodoMiddleware')['user']->id;
+        if (!$request->hasFile('image')) return back();
+        // Kiểm tra loại MIME của file
+        $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        $fileMimeType = $request->file('image')->getMimeType();
+
+        // Nếu loại MIME không nằm trong danh sách cho phép
+        if (!in_array($fileMimeType, $allowedMimeTypes)) return back();
+        // Nếu loại MIME nằm trong danh sách cho phép
+        $user = User::where('id', $user_id)->first();
+        $imgURL = $request->image;
+        $filename = 'user-'.$user_id.'_'.Carbon::now()->format('YmdHis');
+        Cloudder::upload($imgURL, 'avatar/' . $filename);
+
+        if($user->avatar!='default') {
+            Cloudder::delete('avatar/'.$user->avatar);
+        }
+
+        $user->update([
+            'avatar' => $filename,
+        ]);
+
+        return back();
+    }
 }
