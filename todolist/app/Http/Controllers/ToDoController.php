@@ -592,6 +592,5 @@ class ToDoController extends Controller
         }
 
         return back();
-        // return $list;
     }
 }

@@ -48,3 +48,13 @@ html {
 .hover-underline:hover{
     text-decoration: underline;
 }
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu {
+    display: none;
+}
+
+

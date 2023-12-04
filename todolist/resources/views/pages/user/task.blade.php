@@ -6,7 +6,7 @@
         $secondLastSegment = prev($segments);
     @endphp
     <div class="w-full flex justify-center">
-        <div class="min-h-screen py-6 px-4 shadow-md w-content">
+        <div class="min-h-screen py-4 px-4 shadow-md w-content">
             <div class="w-full text-xl">
                 <i class="mr-2 {{ $icon }}"></i> {{ $title }}
             </div>
@@ -32,9 +32,6 @@
                         </div>
                     </form>
 
-                    {{-- <p>Last Segment: {{ $lastSegment }}</p>
-                    <p>Second Last Segment: {{ $secondLastSegment }}</p> --}}
-
                     <!-- Danh sách công việc -->
                     @if ($overdue && count($overdue) > 0)
                         <ul class="mt-4">
@@ -45,7 +42,7 @@
                             @foreach ($overdue as $task)
                                 <li class="flex items-center justify-between py-1 px-2 bg-white hover:bg-border rounded-lg">
                                     <div class="flex items-center justify-between w-full">
-                                        <div class="flex items-center w-1/2">
+                                        <a href="{{ route('getTaskDescription', ['id' => $task->id, 'type' => $routename]) }}" class="flex items-center w-1/2">
                                             <form id="checkForm{{ $task->id }}"
                                                 action="{{ route('checkCompleted', ['id' => $task->id]) }}" method="POST"
                                                 style="display: none;">
@@ -56,7 +53,7 @@
                                                 onchange="document.getElementById('checkForm{{ $task->id }}').submit();"
                                                 class="w-4 h-4 mr-2 form-checkbox border-2 border-blue-500 hover:cursor-pointer">
                                             <span class="font-thin text-sm line-clamp-2">{{ $task->title }}</span>
-                                        </div>
+                                        </a>
                                         <div class="">
                                             @php
                                                 $tags = $task->tags->take(3);
@@ -108,7 +105,7 @@
                                     <li
                                         class="flex items-center justify-between py-1 px-2 bg-white hover:bg-border rounded-lg">
                                         <div class="flex items-center justify-between w-full">
-                                            <div class="flex items-center w-1/2">
+                                            <a href="{{ route('getTaskDescription', ['id' => $task->id, 'type' => $routename]) }}" class="flex items-center w-1/2">
                                                 <form id="checkForm{{ $task->id }}"
                                                     action="{{ route('checkCompleted', ['id' => $task->id]) }}"
                                                     method="POST" style="display: none;">
@@ -119,7 +116,7 @@
                                                     onchange="document.getElementById('checkForm{{ $task->id }}').submit();"
                                                     class="w-4 h-4 mr-2 form-checkbox border-2 border-blue-500 hover:cursor-pointer">
                                                 <span class="font-thin text-sm line-clamp-2">{{ $task->title }}</span>
-                                            </div>
+                                            </a>
                                             <div class="">
                                                 @php
                                                     $tags = $task->tags->take(3);
@@ -170,7 +167,7 @@
                             @foreach ($isDone as $task)
                                 <li
                                     class="flex items-center justify-between py-1 px-2 bg-white hover:bg-border rounded-lg hover:cursor-pointer">
-                                    <div class="flex items-center">
+                                    <a href="{{ route('getTaskDescription', ['id' => $task->id, 'type' => $routename]) }}" class="flex items-center">
                                         <form id="checkForm{{ $task->id }}"
                                             action="{{ route('checkCompleted', ['id' => $task->id]) }}" method="POST"
                                             style="display: none;">
@@ -182,7 +179,7 @@
                                             class="w-4 h-4 mr-2 form-checkbox border-2 accent-slate-200 border-blue-500 hover:cursor-pointer">
                                         <span
                                             class="font-thin text-sm text-slate-300 line-through">{{ $task->title }}</span>
-                                    </div>
+                                    </a>
                                     <div class="">
                                         @php
                                             $tags = $task->tags->take(3);

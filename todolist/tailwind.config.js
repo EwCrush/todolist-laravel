@@ -22,7 +22,13 @@ export default {
         border: "#f8f8f8"
       },
       width:{
-        content: "98%"
+        content: "98%",
+      },
+      minWidth:{
+        selectbox: "153px"
+      },
+      minHeight: {
+        TagList: '52px'
       }
     },
   },

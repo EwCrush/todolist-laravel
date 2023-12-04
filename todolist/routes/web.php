@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ToDoController;
 use App\Http\Controllers\UserListController;
+use App\Http\Controllers\TaskDescriptionController;
 use App\Http\Controllers\TagController;
 use JD\Cloudder\Facades\Cloudder;
 
@@ -57,4 +58,11 @@ Route::middleware('todo')->prefix('todo')->group(function () {
     Route::post('/list', [UserListController::class, 'addNewList'])->name('addNewList');
     Route::post('/tag', [TagController::class, 'addNewTag'])->name('addNewTag');
     Route::post('/image', [AuthController::class, 'uploadImg'])->name('uploadImg');
+    Route::get('/task/{id}', [TaskDescriptionController::class, 'getTaskDescription'])->name('getTaskDescription');
+    Route::delete('/task/{taskid}/tag/{tagid}', [TaskDescriptionController::class, 'removeTagFromTask'])->name('removeTagFromTask');
+    Route::post('/task/{taskid}/tag/{tagid}', [TaskDescriptionController::class, 'addTagToTask'])->name('addTagToTask');
+    Route::put('/task/{taskid}/list/{listid}', [TaskDescriptionController::class, 'changeListTask'])->name('changeListTask');
+    Route::put('/task/{id}/date', [TaskDescriptionController::class, 'changeDateTask'])->name('changeDateTask');
+    Route::put('/task/{id}/description', [TaskDescriptionController::class, 'changeDescriptionTask'])->name('changeDescriptionTask');
+    Route::put('/task/{id}/title', [TaskDescriptionController::class, 'changeTitleTask'])->name('changeTitleTask');
 });
