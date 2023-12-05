@@ -65,4 +65,6 @@ Route::middleware('todo')->prefix('todo')->group(function () {
     Route::put('/task/{id}/date', [TaskDescriptionController::class, 'changeDateTask'])->name('changeDateTask');
     Route::put('/task/{id}/description', [TaskDescriptionController::class, 'changeDescriptionTask'])->name('changeDescriptionTask');
     Route::put('/task/{id}/title', [TaskDescriptionController::class, 'changeTitleTask'])->name('changeTitleTask');
+    Route::delete('/tag/{id}', [TagController::class, 'deleteTag'])->name('deleteTag');
+    Route::delete('/list/{id}', [UserListController::class, 'deleteList'])->name('deleteList');
 });

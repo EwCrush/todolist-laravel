@@ -4,8 +4,8 @@
         <div class="h-full w-full">
             <div class="flex items-center py-4 px-3 space-x-2">
                 <!-- Hiển thị ảnh -->
-                <img id="userImage" class="w-10 h-10 rounded-full cursor-pointer" src="{{ session('dataTodoMiddleware')['user']->image }}"
-                    alt="" title="Chọn ảnh">
+                <img id="userImage" class="w-10 h-10 rounded-full cursor-pointer"
+                    src="{{ session('dataTodoMiddleware')['user']->image }}" alt="" title="Chọn ảnh">
 
                 <!-- Input file ẩn -->
                 <form id="uploadImg" method="POST" action="{{ route('uploadImg') }}" enctype="multipart/form-data">
@@ -45,7 +45,7 @@
 
             </ul>
             <hr class="my-1" />
-            <div class="py-2 px-3 text-base flex justify-between items-center hover:bg-zinc-100 cursor-pointer">
+            <div id="userListContainer" class="py-2 px-3 text-base flex justify-between items-center hover:bg-zinc-100 cursor-pointer">
                 <span>List</span>
                 <span title="Thêm list mới" class="hover:text-primary cursor-pointer"><i class="fa-solid fa-plus"
                         id="addListBtn"></i></span>
@@ -56,20 +56,28 @@
                     class="block w-full text-sm py-0.5 px-2 text-gray-600 bg-border focus:bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                     placeholder="Thêm list mới">
             </form>
-            <ul>
+            <ul class="hidden" id="listUserLists">
                 @foreach (session('dataTodoMiddleware')['lists'] as $list)
                     <li
-                        class="py-2 px-3 text-sm hover:bg-zinc-100 cursor-pointer @if ($routename == 'list-' . $list->id) bg-sidebarselected @endif">
+                        class="listItem flex items-center justify-between py-2 px-3 text-sm hover:bg-zinc-100 cursor-pointer @if ($routename == 'list-' . $list->id) bg-sidebarselected @endif">
                         <a href="{{ route('customList', ['id' => $list->id]) }}"
                             class="flex items-center text-gray-600 hover:text-blue-600">
                             <i class="mr-2 fa-solid fa-list"></i>
                             {{ $list->name }}
                         </a>
+                        <form id="delList{{ $list->id }}Form"
+                            action="{{ route('deleteList', ['id' => $list->id]) }}" method="POST"
+                            style="display: none;">
+                            @csrf
+                            @method('DELETE')
+                        </form>
+                        <span title="Xóa list" id="delList{{ $list->id }}" class="hidden red text-xs btnDelList"><i
+                            class="fa-solid fa-x"></i></span>
                     </li>
                 @endforeach
             </ul>
             <hr class="my-1" />
-            <div class="py-2 px-3 text-base flex justify-between items-center hover:bg-zinc-100 cursor-pointer">
+            <div id="tagContainer" class="py-2 px-3 text-base flex justify-between items-center hover:bg-zinc-100 cursor-pointer">
                 <span>Tag</span>
                 <span title="Thêm tag mới" class="hover:text-primary cursor-pointer"><i class="fa-solid fa-plus"
                         id="addTagBtn"></i></span>
@@ -85,15 +93,23 @@
                     </div>
                 </div>
             </form>
-            <ul>
+            <ul class="hidden" id="listTags">
                 @foreach (session('dataTodoMiddleware')['tags'] as $tag)
                     <li
-                        class="py-2 px-3 text-sm hover:bg-zinc-100 cursor-pointer @if ($routename == 'tag-' . $tag->id) bg-sidebarselected @endif">
+                        class="tagItem flex items-center justify-between py-2 px-3 text-sm hover:bg-zinc-100 cursor-pointer @if ($routename == 'tag-' . $tag->id) bg-sidebarselected @endif">
                         <a href="{{ route('tasksByTag', ['id' => $tag->id]) }}"
                             class="flex items-center hover:text-blue-600" style="color: {{ $tag->background_color }}">
                             <i class="mr-2 fa-solid fa-tag"></i>
                             #{{ $tag->name }}
                         </a>
+                        <form id="delTag{{ $tag->id }}Form"
+                            action="{{ route('deleteTag', ['id' => $tag->id]) }}" method="POST"
+                            style="display: none;">
+                            @csrf
+                            @method('DELETE')
+                        </form>
+                        <span title="Xóa tag" id="delTag{{ $tag->id }}" class="hidden red text-xs btnDelTag"><i
+                                class="fa-solid fa-x"></i></span>
                     </li>
                 @endforeach
             </ul>
@@ -128,6 +144,85 @@
         const addListForm = document.querySelector("#addListForm")
         const addTagBtn = document.querySelector("#addTagBtn")
         const addTagForm = document.querySelector("#addTagForm")
+        const btnDelTags = document.querySelectorAll(".btnDelTag")
+        const tagItems = document.querySelectorAll(".tagItem")
+        const listItems = document.querySelectorAll(".listItem")
+        const btnDelLists = document.querySelectorAll(".btnDelList")
+        const userListContainer = document.querySelector("#userListContainer")
+        const tagContainer = document.querySelector("#tagContainer")
+        const listTags = document.querySelector("#listTags")
+        const listUserLists = document.querySelector("#listUserLists")
+
+        userListContainer.addEventListener('click', function(){
+            listUserLists.classList.toggle('hidden')
+        })
+
+        tagContainer.addEventListener('click', function(){
+
+            listTags.classList.toggle('hidden')
+        })
+
+        btnDelLists.forEach(item => {
+            item.addEventListener('click', function(e) {
+                Swal.fire({
+                    title: "Bạn chắc chứ?",
+                    text: "List này sẽ bị xóa vĩnh viễn nếu như bạn xóa nó!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Vâng, tôi hiểu!",
+                    cancelButtonText: "Hủy"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const idDelForm = item.id+'Form'
+                        const delForm = document.querySelector('#'+idDelForm)
+                        delForm.submit()
+                    }
+                });
+            })
+        });
+
+        listItems.forEach(item => {
+            const spanElements = item.querySelector('span');
+            item.addEventListener('mouseover', function(){
+                spanElements.classList.remove('hidden')
+            })
+            item.addEventListener('mouseout', function(){
+                spanElements.classList.add('hidden')
+            })
+        });
+
+        tagItems.forEach(item => {
+            const spanElements = item.querySelector('span');
+            item.addEventListener('mouseover', function(){
+                spanElements.classList.remove('hidden')
+            })
+            item.addEventListener('mouseout', function(){
+                spanElements.classList.add('hidden')
+            })
+        });
+
+        btnDelTags.forEach(item => {
+            item.addEventListener('click', function(e) {
+                Swal.fire({
+                    title: "Bạn chắc chứ?",
+                    text: "Tag này sẽ bị xóa vĩnh viễn nếu như bạn xóa nó!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Vâng, tôi hiểu!",
+                    cancelButtonText: "Hủy"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const idDelForm = item.id+'Form'
+                        const delForm = document.querySelector('#'+idDelForm)
+                        delForm.submit()
+                    }
+                });
+            })
+        });
 
         addListBtn.addEventListener("click", function(e) {
             addListForm.classList.remove('hidden');
