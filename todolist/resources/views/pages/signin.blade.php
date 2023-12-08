@@ -1,8 +1,8 @@
 @extends('layouts.page')
 @section('content')
-    @if (session('signup'))
+    @if (session('success'))
         <script>
-            let message = '{!! session('signup') !!}'
+            let message = '{!! session('success') !!}'
             Swal.fire({
                 position: "top-right",
                 icon: "success",
@@ -60,7 +60,13 @@
                     <small class="text-red">{{ $message }}</small>
                 @enderror
 
-                <div class="mt-6">
+                <div class="mt-4 text-center flex flex-row-reverse justify-between">
+                    <a href="{{ route('findaccount') }}" class="text-blue-500 hover:underline cursor-pointer dark:text-blue-400">
+                        Quên mật khẩu?
+                    </a>
+                </div>
+
+                <div class="mt-4">
                     <button id="signin" type="submit"
                         class="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
                         Đăng nhập
@@ -71,7 +77,7 @@
                         <p class="mx-4 mb-0 text-center dark:text-neutral-200">Hoặc</p>
                     </div>
 
-                    <a href="{{ route('socialLogin', ['social' => 'google' ]) }}"
+                    <a href="{{ route('socialLogin', ['social' => 'google']) }}"
                         class="flex items-center justify-center px-6 py-3 mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg dark:border-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <svg class="h-6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-0.5 0 48 48" version="1.1">
@@ -115,7 +121,7 @@
                         <span class="mx-2">Đăng nhập với Facebook</span>
                     </a> --}}
 
-                    <a href="{{ route('socialLogin', ['social' => 'github' ]) }}"
+                    <a href="{{ route('socialLogin', ['social' => 'github']) }}"
                         class="flex items-center justify-center px-6 py-3 mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg dark:border-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <svg class="h-6 w-6 mr-2" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 73 73" version="1.1">

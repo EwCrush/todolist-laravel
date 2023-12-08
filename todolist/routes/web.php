@@ -33,6 +33,10 @@ Route::get('/signin', [AuthController::class, 'signin'])->name('signin');
 Route::post('/signup', [AuthController::class, 'handleSignup']);
 Route::get('/signup', [AuthController::class, 'signup'])->name('signup');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/findaccount', [AuthController::class, 'findaccount'])->name('findaccount');
+Route::get('/resetpassword/{otp}', [AuthController::class, 'resetpassword'])->name('resetpassword');
+Route::post('/findaccount', [AuthController::class, 'handleFindAccount'])->name('handleFindAccount');
+Route::post('/resetpassword/{otp}', [AuthController::class, 'handleResetPassword'])->name('handleResetPassword');
 
 //socialite
 Route::get('/auth/{social}', [AuthController::class, 'socialLogin'])->name('socialLogin');

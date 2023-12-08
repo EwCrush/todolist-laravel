@@ -235,7 +235,7 @@
                                         d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                                 </svg>
                             </div>
-                            <input type="text" id="oldpassword" name="oldpassword"
+                            <input type="password" id="oldpassword" name="oldpassword"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full ps-10 p-2.5  focus:bg-white dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                 placeholder="Mật khẩu cũ của bạn">
                         </div>
@@ -253,7 +253,7 @@
                                         d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                                 </svg>
                             </div>
-                            <input type="text" id="newpassword" name="newpassword"
+                            <input type="password" id="newpassword" name="newpassword"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full ps-10 p-2.5  focus:bg-white dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                 placeholder="Mật khẩu mới của bạn">
                         </div>
@@ -271,7 +271,7 @@
                                         d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                                 </svg>
                             </div>
-                            <input type="text" id="newpassword_confirmation" name="newpassword_confirmation"
+                            <input type="password" id="newpassword_confirmation" name="newpassword_confirmation"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full ps-10 p-2.5  focus:bg-white dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                 placeholder="Xác nhận lại mật khẩu">
                         </div>
@@ -350,6 +350,13 @@
                 })
                 .then(response => {
                     modal.classList.add('hidden');
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Đổi mật khẩu thành công",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                 })
                 .catch(error => {
                     if (error.response.status == '404') {
@@ -385,6 +392,13 @@
                     fullnameText.innerText = fullnameInput.value
                     emailText.innerText = emailInput.value
                     modal.classList.add('hidden');
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Đã cập nhật thông tin của bạn",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                 })
                 .catch(error => {
                     if (error.response.status == '404') {
