@@ -8,11 +8,14 @@ use App\Models\User;
 use App\Models\UserList;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\SignUpRequest;
+use App\Http\Requests\EditProfileRequest;
+use App\Http\Requests\ChangePasswordRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
 use Carbon\Carbon;
 use JD\Cloudder\Facades\Cloudder;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
 {
@@ -45,6 +48,35 @@ class AuthController extends Controller
         }
         else{
             return view('pages.signin');
+        }
+    }
+
+    public function home(){
+        if(session('token')){
+            return redirect()->route('todo');
+        }
+        else{
+            return view('pages.landing');
+        }
+    }
+
+    public function logout(){
+        $access_token = session('token')['access_token'];
+        $personalAccessToken = PersonalAccessToken::findToken($access_token);
+        if ($personalAccessToken) {
+            // Lấy ra người dùng của token
+            $user = $personalAccessToken->tokenable;
+
+            // Xóa tất cả các token của người dùng
+            $user->tokens()->delete();
+
+            // Xoá token hiện tại
+            $personalAccessToken->delete();
+
+            // Đặt session token thành null
+            session(['token' => null]);
+
+            return redirect()->route('signin');
         }
     }
 
@@ -135,5 +167,34 @@ class AuthController extends Controller
         ]);
 
         return back();
+    }
+
+    public function editProfile(EditProfileRequest $request){
+        $user = $request->user();
+        if($user->social_id) return response()->json(['status'=> 404, 'message'=>'Bạn không có quyền này!'], 404);
+        if ($user->email != $request->email) {
+            $checkEmail = User::where('id', '!=', $user->_id)->where('email', $request->email)->first();
+            if ($checkEmail) {
+                return response()->json(['status' => 422, 'errors' => ['email' => ['Email này đã tồn tại']]], 422);
+            }
+        }
+        User::where('id', $user->id)->update([
+            'fullname' => $request->fullname,
+            'email' => $request->email
+        ]);
+        return response()->json(['status' => 200, 'message' => 'Cập nhật thông tin thành công'], 200);
+    }
+
+    public function changePassword(ChangePasswordRequest $request){
+        $user = $request->user();
+        if(Hash::check($request->oldpassword, $user->password_account)){
+            $user->update([
+                'password_account' => Hash::make($request->newpassword),
+            ]);
+            return response()->json(['status' => 200, 'message' => 'Cập nhật thông tin thành công'], 200);
+        }
+        else {
+            return response()->json(['status' => 422, 'errors' => ['oldpassword' => ['Mật khẩu cũ sai']]], 422);
+        }
     }
 }

@@ -148,39 +148,3 @@
         </div>
     </section>
 @endsection
-
-{{-- <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const signIn = document.querySelector("#signin")
-        const token = document.querySelector('input[name="_token"]').value
-        const username = document.querySelector('input[name="username"]')
-        const password = document.querySelector('input[name="password"]')
-
-        signIn.addEventListener("click", function(e) {
-            signInHandle(e);
-        });
-
-        function signInHandle(e) {
-            e.preventDefault();
-            const data = {
-                username: username.value,
-                password: password.value,
-                _token: token
-            };
-            axios.post('/signin', data)
-                .then(response => {
-                    console.log(response.data);
-                    // Xử lý kết quả từ phía máy chủ (nếu có)
-                })
-                .catch(error => {
-                    const errors = error.response.data.errors;
-                    for (const key in errors) {
-                        if (errors.hasOwnProperty(key)) {
-                            const errorText = errors[key][0];
-                            document.querySelector('.error.' + key).innerText = errorText
-                        }
-                    }
-                });
-        }
-    })
-</script> --}}

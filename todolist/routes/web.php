@@ -19,27 +19,24 @@ use JD\Cloudder\Facades\Cloudder;
 |
 */
 
-Route::get('/', function () {
-    return Cloudder::show('sample');
-});
+Route::get('/', [AuthController::class, 'home'])->name('home');
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/tags', [ToDoController::class, 'getTags'])->name('getTags');
     Route::get('/lists', [ToDoController::class, 'getLists'])->name('getLists');
+    Route::put('/profile', [AuthController::class, 'editProfile'])->name('editProfile');
+    Route::put('/password', [AuthController::class, 'changePassword'])->name('changePassword');
 });
 
 Route::post('/signin', [AuthController::class, 'handleSignin']);
 Route::get('/signin', [AuthController::class, 'signin'])->name('signin');
 Route::post('/signup', [AuthController::class, 'handleSignup']);
 Route::get('/signup', [AuthController::class, 'signup'])->name('signup');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 //socialite
 Route::get('/auth/{social}', [AuthController::class, 'socialLogin'])->name('socialLogin');
 Route::get('/auth/{social}/callback', [AuthController::class, 'socialLoginHandle'])->name('socialLoginHandle');
-// Route::get('/auth/github', [AuthController::class, 'githubLogin'])->name('githubLogin');
-// Route::get('/auth/github/callback', [AuthController::class, 'githubLoginHandle'])->name('githubLoginHandle');
-// Route::get('/auth/facebook', [AuthController::class, 'facebookLogin'])->name('facebookLogin');
-// Route::get('/auth/facebook/callback', [AuthController::class, 'facebookLoginHandle'])->name('facebookLoginHandle');
 
 Route::middleware('todo')->prefix('todo')->group(function () {
     Route::get('/', [ToDoController::class, 'todo'])->name('todo');
