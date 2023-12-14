@@ -1,7 +1,7 @@
 # todolist-laravel
 ## Yêu cầu ##
--	PHP 8.1.17
--	XAMPP Version: 8.1.17
+-	PHP 8.1 hoặc mới hơn
+-	XAMPP Version: 8.1 hoặc mới hơn
 -	NodeJS
 
 ## Khởi động ứng dụng ##
