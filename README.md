@@ -65,6 +65,15 @@
 >Trang task theo tag
 ![image](https://github.com/EwCrush/todolist-laravel/assets/133571200/2e1608e8-bb95-47fa-9004-477ad2ac4b03)
 
+>Cập nhật thông tin cá nhân
+![image](https://github.com/EwCrush/todolist-laravel/assets/133571200/19b4628c-4852-4699-9cb5-8d61ed7fb116)
+
+>Đổi mật khẩu
+![image](https://github.com/EwCrush/todolist-laravel/assets/133571200/84b3cefc-b48f-4f20-817b-93f5e76fd7fe)
+
+>Mail đặt lại mật khẩu đã quên
+![image](https://github.com/EwCrush/todolist-laravel/assets/133571200/2751c95c-3271-45cc-8e16-ae54d7a4e9b7)
+
 >Trang task theo list
 ![image](https://github.com/EwCrush/todolist-laravel/assets/133571200/be3db64f-b00b-4ab6-8a4f-75ba5100d45a)
 
