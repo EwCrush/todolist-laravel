@@ -323,6 +323,15 @@
         const changePasswordToken = document.querySelector('#changePasswordItem input[name="_token"]')
         const goToEditProfile = document.querySelector("#goToEditProfile")
         const goToChangePassword = document.querySelector("#goToChangePassword")
+        const pageUrl = window.location.href;
+
+        if (pageUrl.includes("list")) {
+            listUserLists.classList.remove('hidden')
+        }
+
+        if (pageUrl.includes("tag")) {
+            listTags.classList.remove('hidden')
+        }
 
         goToChangePassword.addEventListener('click', function() {
             editProfileItem.classList.add('hidden');
